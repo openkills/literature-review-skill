@@ -28,7 +28,7 @@
 [1] Jumper J, Evans R, Pritzel A, et al. Highly accurate protein structure prediction with AlphaFold[J]. Nature, 2021, 596(7873): 583-589.
 [2] Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[EB/OL]. arXiv preprint arXiv:1706.03762, 2017.
 
-> 注：文献 [2] 在 arXiv 上未登记期刊信息，skill 会先询问用户「是否已正式发表、发表在哪个期刊/会议（卷、期、页码）」。若用户告知发表于 NeurIPS 2017，则参考文献与 bibtex 按用户输入改写为会议论文格式。
+> 注：两篇文献的期刊名均由用户输入确认后写入 bibtex（skill 会先展示元数据查到的结果作为建议）。文献 [2] 在 arXiv 上未登记期刊信息，若用户告知发表于 NeurIPS 2017，则参考文献与 bibtex 按用户输入改写为会议论文格式。
 
 ## 四、BibTeX
 

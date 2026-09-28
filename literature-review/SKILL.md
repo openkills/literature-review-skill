@@ -1,6 +1,6 @@
 ---
 name: literature-review
-description: 文献综述生成器：根据用户提供的文献（DOI、论文链接、arXiv 链接、本地 PDF/Word/tex 论文文件）总结每篇论文的主要工作与贡献并评价其意义与价值，生成中英文一句话总结、参考文献级 bibtex（期刊信息缺失时必须向用户询问）、以及可直接粘贴进论文的 [1][2]… 编号式文献综述，并将综述、参考文献列表与 bibtex 同时输出到 Markdown 文件和对话框。当用户提到「文献综述」「总结这篇/这几篇论文」「总结文献」「生成参考文献」「bibtex」「引用格式」「literature review」「summarize this paper」「generate citations」等需求时触发——即使用户没有说"文献综述"三个字，只要涉及总结学术论文并生成可引用的材料，就应触发本 skill。
+description: 文献综述生成器：根据用户提供的文献（DOI、论文链接、arXiv 链接、本地 PDF/Word/tex 论文文件）总结每篇论文的主要工作与贡献并评价其意义与价值，生成中英文一句话总结、参考文献级 bibtex（期刊名一律由用户输入确认，元数据仅作建议）、以及可直接粘贴进论文的 [1][2]… 编号式文献综述，并将综述、参考文献列表与 bibtex 同时输出到 Markdown 文件和对话框。当用户提到「文献综述」「总结这篇/这几篇论文」「总结文献」「生成参考文献」「bibtex」「引用格式」「literature review」「summarize this paper」「generate citations」等需求时触发——即使用户没有说"文献综述"三个字，只要涉及总结学术论文并生成可引用的材料，就应触发本 skill。
 ---
 
 # 文献综述生成器
@@ -47,7 +47,7 @@ English: This paper proposes AlphaFold2, achieving experimental-level accuracy i
 - **类型选择**：期刊论文用 `@article`，会议论文用 `@inproceedings`，未正式发表的预印本用 `@misc`。
 - **字段必须齐全到参考文献级别**：`author`（`姓, 名 and 姓, 名` 格式）、`title`、`journal` / `booktitle`、`year`、`volume`、`number`、`pages`、`publisher`、`doi`，有 URL 就带 `url`。某个字段从元数据里拿不到时先问用户，宁缺勿错。
 - **key 命名**：`<第一作者姓氏小写><年份><标题第一个关键词>`，如 `jumper2021alphafold`、`vaswani2017attention`。
-- **期刊信息规则（本 skill 的硬性规则）**：元数据里带期刊名就直接用；论文是 arXiv 等预印本、或元数据里没有期刊字段时，**必须先问用户**：「这篇论文是否已正式发表？发表在哪个期刊或会议？卷、期、页码是多少（如果知道）？」拿到用户答复前不得编造期刊名；用户说未发表，就用 `@misc` + arXiv 字段。用户指定的期刊信息以用户为准。
+- **期刊信息规则（本 skill 的硬性规则）**：bibtex 的 `journal` / `booktitle` 字段**一律由用户输入确认**，任何情况下都不得跳过用户、直接把元数据里的期刊名写进 bibtex。生成 bibtex 前，逐篇向用户询问：「这篇论文发表在哪个期刊或会议？卷、期、页码是多少（如果知道）？」元数据里查到的期刊名只能作为建议一并展示（如「CrossRef 显示为 Knowledge-Based Systems, 352 (2026) 117074，请确认或给出正确期刊」），最终以用户答复为准。多篇文献时把所有期刊一次性问完，不要反复打断。用户说未正式发表（如 arXiv 预印本），就用 `@misc` + eprint/archivePrefix 字段。
 
 ```bibtex
 @article{jumper2021alphafold,
@@ -120,7 +120,7 @@ English: This paper proposes AlphaFold2, achieving experimental-level accuracy i
 
 ## 红线
 
-1. 卷、期、页码、期刊名、作者名只能来自权威元数据源或用户输入，缺了就问，绝不编造。
+1. 期刊名必须经用户输入确认后才能写入 bibtex；卷、期、页码、作者名等其余字段来自权威元数据源，缺了就问，绝不编造。
 2. 总结只基于论文真实内容；只有摘要时注明「（基于摘要）」，不推测未读到的实验细节。
 3. `[n]` 编号在文献综述、参考文献列表、bibtex 三处必须一致。
 4. 结果必须同时写入 md 文件和对话框，两者内容一致。
